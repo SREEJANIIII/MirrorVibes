@@ -1,4 +1,4 @@
-# 🎵 MirrorVibes (SWiftie Edition)
+# 🎵 MirrorVibes (Swiftie Edition)
 
 > *Your mood. Your music.*
 
