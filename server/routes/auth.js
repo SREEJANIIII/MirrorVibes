@@ -9,19 +9,19 @@ router.get("/songs", async (req, res) => {
   const mood = req.query.mood;
 
   const moodMap = {
-    happy: "party",
-    sad: "sad",
-    calm: "lofi",
-    hype: "workout",
-    anxious: "relaxing",
-    romantic: "romantic",
-    energetic: "energetic",
-    chill: "chill",
-    nostalgic: "nostalgic",
-    focused: "focus"
-  };
+  happy: "Lover",
+  sad: "Tortured Poets Department",
+  calm: "Folklore",
+  hype: "Fearless",
+  anxious: "Speak Now",
+  romantic: "Lover",
+  energetic: "Reputation",
+  chill: "Midnights",
+  nostalgic: "1989",
+  focused: "Evermore"
+};
 
-  const keyword = moodMap[mood];
+const keyword = `Taylor Swift ${moodMap[mood]}`;
 
   try {
     const response = await axios.get(
@@ -30,7 +30,7 @@ router.get("/songs", async (req, res) => {
         params: {
           term: keyword,
           media: "music",
-          limit: 20
+          limit: 10
         }
       }
     );
