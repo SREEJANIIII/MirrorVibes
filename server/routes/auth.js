@@ -9,7 +9,7 @@ router.get("/songs", async (req, res) => {
   const mood = req.query.mood;
 
   const moodMap = {
-  happy: "Lover",
+  happy: "The LIfe Of A Showgirl",
   sad: "Tortured Poets Department",
   calm: "Folklore",
   hype: "Fearless",
