@@ -30,7 +30,7 @@ router.get("/songs", async (req, res) => {
         params: {
           term: keyword,
           media: "music",
-          limit: 10
+          limit: 20
         }
       }
     );

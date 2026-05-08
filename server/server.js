@@ -8,7 +8,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
-    res.send("MirrorVibes API running 🎧");
+    res.render("index.ejs");
 });
 
 const authRoutes = require("./routes/auth");

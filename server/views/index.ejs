@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MirrorVibes</title>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Welcome to MirrorVibes</h1>
+    <p class="subtitle">How's your mood today?</p>
+    <p class="hint">Choose from the following</p>
+
+    <div class="mood-buttons">
+      <% const moods = ["happy", "sad", "calm", "hype", "anxious", "romantic", "energetic", "chill", "nostalgic", "focused"] %>
+      <% moods.forEach(mood => { %>
+        <button class="mood-btn" onclick="fetchSongs('<%= mood %>')"><%= mood %></button>
+      <% }) %>
+    </div>
+
+    <div id="status"></div>
+
+    <div id="playlist" class="playlist"></div>
+  </div>
+
+  <script>
+    async function fetchSongs(mood) {
+      const status = document.getElementById("status");
+      const playlist = document.getElementById("playlist");
+
+      status.textContent = "Loading...";
+      playlist.innerHTML = "";
+
+      try {
+        const res = await fetch(`/auth/songs?mood=${mood}`);
+        const songs = await res.json();
+
+        status.textContent = `Showing results for: ${mood}`;
+         currentSong=null;
+        playlist.innerHTML = songs.map(song => `
+          <div class="song-card">
+            <img src="${song.image}" alt="${song.album}" />
+            <div class="song-info">
+              <p class="song-name">${song.song}</p>
+              <p class="song-artist">${song.artist}</p>
+              <p class="song-album">${song.album}</p>
+              ${song.preview
+                ? `<audio controls src="${song.preview}"></audio>`
+                : `<p class="no-preview">No preview available</p>`
+              }
+            </div>
+          </div>
+        `).join("");
+
+      } catch (err) {
+        status.textContent = "Something went wrong. Try again!";
+        console.log(err);
+      }
+      const audios = document.querySelectorAll("audio");
+
+audios.forEach(audio => {
+
+  audio.addEventListener("play", () => {
+
+    if (currentSong && currentSong !== audio) {
+      currentSong.pause();
+    }
+
+    currentSong = audio;
+  });
+
+});
+    }
+  </script>
+  <style>
+    * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  background: #05012e;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  text-align: center;
+  padding: 2rem;
+  width: 100%;
+  max-width: 800px;
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: #fafafa;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: #ffffff;
+  margin-bottom: 0.25rem;
+}
+
+.hint {
+  font-size: 0.85rem;
+  color: #888;
+  margin-bottom: 2rem;
+}
+
+.mood-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.mood-btn {
+  padding: 0.5rem 1.25rem;
+  border-radius: 100px;
+  border: 1.5px solid #ccc;
+  background: #fff;
+  color: #333;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mood-btn:hover {
+  background: #111;
+  color: #fff;
+  border-color: #111;
+}
+
+#status {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 1.5rem;
+  text-transform: capitalize;
+}
+
+.playlist {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.song-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 1rem;
+  text-align: left;
+}
+
+.song-card img {
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.song-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+}
+
+.song-name {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #111;
+}
+
+.song-artist {
+  font-size: 0.85rem;
+  color: #555;
+}
+
+.song-album {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+audio {
+  margin-top: 0.5rem;
+  width: 100%;
+  height: 32px;
+}
+
+.no-preview {
+  font-size: 0.75rem;
+  color: #bbb;
+  margin-top: 0.25rem;
+}
+  </style>
+
+</body>
+</html>
