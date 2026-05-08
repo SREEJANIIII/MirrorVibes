@@ -25,6 +25,7 @@
   </div>
 
   <script>
+     let currentSong=null;
     async function fetchSongs(mood) {
       const status = document.getElementById("status");
       const playlist = document.getElementById("playlist");
@@ -37,7 +38,6 @@
         const songs = await res.json();
 
         status.textContent = `Showing results for: ${mood}`;
-         currentSong=null;
         playlist.innerHTML = songs.map(song => `
           <div class="song-card">
             <img src="${song.image}" alt="${song.album}" />
@@ -79,10 +79,14 @@ audios.forEach(audio => {
   padding: 0;
   box-sizing: border-box;
 }
-
-body {
+  body {
   font-family: sans-serif;
-  background: #05012e;
+  background-image: url('/bg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
   min-height: 100vh;
   display: flex;
   align-items: center;
