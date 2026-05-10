@@ -1,3 +1,5 @@
+//In package.json: diff btw dependwencies and devDependencies is that dependencies are required for the application to run, while devDependencies are only needed during development and testing. In this case, there are no devDependencies listed in the package.json file.
+
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
