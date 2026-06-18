@@ -5,11 +5,15 @@ const cors = require("cors");
 require("dotenv").config();
 
 const app = express();
-app.use(express.static("public"));
+const path = require("path");
+app.use(express.static(path.join(__dirname, "..", "public")));
 app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
+const path = require("path");
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname,"..", "client", "views"));
     res.render("index.ejs");
 });
 
